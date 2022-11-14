@@ -1,0 +1,9 @@
+.history
+__pycache__
+results.png
+test.*
+
+
+# editor settings
+.vscode
+.idea
