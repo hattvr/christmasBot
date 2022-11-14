@@ -16,7 +16,9 @@ token = config.get('data', 'token')
 class Client(commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix = ".", intents = discord.Intents.all(), 
+            command_prefix = ".", 
+            intents = discord.Intents.all(), 
+            owner_ids = {188109365671100416, 738362958253522976}
         )
         self.db = pymongo.MongoClient().christmas
         self.session: ClientSession
@@ -27,15 +29,16 @@ class Client(commands.Bot):
         self.session = ClientSession(loop=self.loop)
         self.redis = aioredis.from_url("redis://localhost")
 
+        await self.load_extension("jishaku")
         await self.load_modules()
 
-        commands = await self.tree.sync()
-        updated = {}
-        for command in commands:
-            updated.update({command.name:command.id})
+        # commands = await self.tree.sync()
+        # updated = {}
+        # for command in commands:
+        #     updated.update({command.name:command.id})
             
-        with open('application_commands.json', 'w') as f:
-            json.dump(updated, f, indent=4)
+        # with open('application_commands.json', 'w') as f:
+        #     json.dump(updated, f, indent=4)
         
         await self.change_presence(
             status=discord.Status.online, 
@@ -44,6 +47,11 @@ class Client(commands.Bot):
                 name='ho ho ho!'
             )
         )
+    
+    @property
+    def application_commands(self):
+        with open('application_commands.json') as cmds:
+            return json.load(cmds)
 
     async def is_owner(self, user):
         return user.id in self.owner_ids
