@@ -13,20 +13,11 @@ config = ConfigParser()
 config.read('config.ini')
 token = config.get('data', 'token')
 
-intents = discord.Intents.all()
-
 class Client(commands.Bot):
     def __init__(self):
         super().__init__(
-            command_prefix = "g!",
-            intents = intents, 
-            enable_debug_events = True, 
-            case_insensitive = True,
-            strip_after_prefix = True,
-            owner_ids = {188109365671100416, 738362958253522976, 165402494552375296}
+            command_prefix = ".", intents = discord.Intents.all(), 
         )
-        self.remove_command('help')
-        self.github = Github("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")
         self.db = pymongo.MongoClient().christmas
         self.session: ClientSession
 
