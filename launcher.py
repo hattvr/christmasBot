@@ -1,4 +1,3 @@
-# Genshin Wizard Moderation Bot
 import configparser
 import discord, os, time, pymongo, json, sys, traceback, aioredis
 from colorama import Fore, init
